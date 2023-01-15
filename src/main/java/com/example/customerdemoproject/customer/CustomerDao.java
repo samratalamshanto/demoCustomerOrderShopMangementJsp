@@ -21,6 +21,7 @@ public class CustomerDao {
 
     @Enumerated(EnumType.STRING)
     private CustomerEnum customer_class;
+    private Integer customerActive;
     private String customerEmail;
 
     @Column(unique = true)
@@ -29,4 +30,7 @@ public class CustomerDao {
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private String customerBirthday;
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+    private String customerCreated;
 }

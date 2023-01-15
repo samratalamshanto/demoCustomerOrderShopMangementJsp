@@ -26,7 +26,6 @@ public class CustomerController {
     @PostMapping("/addCustomer")
     public Object addCustomer(@RequestBody CustomerDao customer)
     {
-
         return customerService.addCustomer(customer);
     }
 

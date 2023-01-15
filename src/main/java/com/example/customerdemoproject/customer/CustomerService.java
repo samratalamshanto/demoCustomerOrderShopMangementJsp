@@ -10,10 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -148,20 +145,30 @@ public class CustomerService {
         return customerEntity;
     }
 
-    public CustomerDao customerEntityToCustomerDaoTransform(CustomerEntity customerEntity)
-    {
+    public CustomerDao customerEntityToCustomerDaoTransform(CustomerEntity customerEntity) {
         CustomerDao customerDao = new CustomerDao();
+        customerDao.setId(customerEntity.getId());
         customerDao.setName(customerEntity.getName());
         customerDao.setCustomer_class(customerEntity.getCustomer_class());
-        customerDao.setCustomerEmail(customerDao.getCustomerEmail());
+        customerDao.setCustomerEmail(customerEntity.getCustomerEmail());
         customerDao.setCustomerPhoneNum(customerEntity.getCustomerPhoneNum());
+        customerDao.setCustomerActive(customerEntity.getCustomerActive());
 
-        LocalDate localDate = Instant.ofEpochMilli(customerEntity.getCustomerBirthday())
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
+        LocalDate localDate = Instant.ofEpochSecond(customerEntity.getCustomerBirthday())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
 
         customerDao.setCustomerBirthday(localDate.toString());
 
+        LocalDateTime localDateTime = Instant.ofEpochSecond(customerEntity.getCustomerCreated())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        DateTimeFormatter customFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String customerCreatedTimeString = localDateTime.format(customFormat);
+        customerDao.setCustomerCreated(customerCreatedTimeString);
+
         return customerDao;
     }
+
 }
